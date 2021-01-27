@@ -1,7 +1,14 @@
 #!/bin/bash
+# creates and attaches disks to local vagrant-created VM.
+# can be run before or after vagrant has bootstrapped VM.
+# should be idempotent, don't think I'm quite there yet.
+
 set -euo pipefail
 
 volsize=8192 # 8 GiB in MiB
+
+echo "--- starting vagrant. a VM must exist to attach disks to."
+vagrant up
 
 echo "--- creating disks"
 mkdir -p ./disks
@@ -18,7 +25,7 @@ for i in {1..4}; do
     fi
 done
 
-echo "--- stopping vagrant. can't attach volumes to running vm."
+echo "--- stopping vagrant. can't attach disks to running vm."
 vagrant halt
 
 echo "--- attaching disks to VM"
